@@ -3,60 +3,59 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from "@mui/material/Button";
-import AddProducts from "./addProducts";
-import DeleteProduct from "./delete-product";
+import AddCategories from "./addCategories";
+import DeleteCategories from "./delete-categories";
 
-const Products = () => {
-  const [productLoading, setProductLoading] = useState(false);
+const Cateogry = () => {
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-  const [productData, setProductData] = useState([]);
-  const columns = [
-    { field: 'id', headerName: 'Category', width: 150 },
-    { field: 'productName', headerName: 'Product Name', width: 200 },
-    { field: 'productDesc', headerName: 'Description', width: 300 },
-    { field: 'imageUrl', headerName: 'Image URL', width: 300 },
-    { field: 'productPrice', headerName: 'Product Price', width: 300 },
-    { field: 'discountPrice', headerName: 'Discount Price', width: 300 },
-  ];
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedProductDelete, setSelectedProductDelete] = useState();
-
-  async function getProducts() {
-    setProductLoading(true);
-    const response = await axios.get("http://localhost:5500/api/admin/products/get");
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [selectedCategoryDelete, setSelectedCategoryDelete] = useState();
+  async function getCategories() {
+    setCategoryLoading(true);
+    const response = await axios.get("http://localhost:5500/api/admin/categories/get");
     const products = response.data.resultData;
-    setProductData(products);
-    setProductLoading(false);
+    setCategoryData(products);
+    setCategoryLoading(false);
   }
 
   useEffect(() => {
-    getProducts()
+    getCategories();
   }, [])
+
+  const columns = [
+    { field: 'key', headerName: 'ID', width: 300 },
+    { field: 'categoryName', headerName: 'Name', width: 300 },
+    { field: 'categoryDesc', headerName: 'Description', width: 300 },
+    { field: 'imageUrl', headerName: 'Image URL', width: 300 },
+  ];
 
   function toggleDialog() {
     setShowDialog(!showDialog);
-  }
-
-  function deleteProduct() {
-    setShowDeleteDialog(true);
   }
 
   function toggleDeleteDialog() {
     setShowDeleteDialog(!showDeleteDialog);
   }
 
+  function deleteCategory() {
+    
+    setShowDeleteDialog(true);
+  }
+
   return (
     <div style={{ padding: "10px" }}>
       <div style={{ textAlign: 'right', marginBottom: '5px' }}>
-        <Button sx={{marginRight: '10px'}} onClick={deleteProduct} variant="contained" color="error" {...(productLoading && { loading: true })}>Delete</Button>
-        <Button onClick={toggleDialog} variant="outlined" color="secondary" {...(productLoading && { loading: true })}>Add Product</Button>
+        <Button sx={{marginRight: '10px'}} onClick={deleteCategory} variant="contained" color="error" {...(categoryLoading && { loading: true })}>Delete</Button>
+        <Button onClick={toggleDialog} variant="outlined" color="secondary" {...(categoryLoading && { loading: true })}>Add Category</Button>
       </div>
       <Box sx={{ width: 'auto' }}>
         <DataGrid
           columns={columns}
-          rows={productData}
-          loading={productLoading}
+          rows={categoryData}
+          loading={categoryLoading}
           rowHeight={38}
           checkboxSelection
           disableRowSelectionOnClick
@@ -84,19 +83,20 @@ const [selectedRows, setSelectedRows] = useState([]);
           }}
         />
       </Box>
-      <AddProducts
+      <AddCategories
         open={showDialog}
         handleClose={toggleDialog}
-        refreshData={getProducts}
+        refreshData={getCategories}
       />
-      <DeleteProduct 
-        selectedRows={(selectedRows.length > 0) ? selectedRows : [selectedProductDelete]} 
+      <DeleteCategories 
         open={showDeleteDialog} 
         handleClose={toggleDeleteDialog} 
-        refreshData={getProducts}
+        refreshData={getCategories}
+        selectedRows={(selectedRows.length > 0) ? selectedRows : [selectedCategoryDelete]}
       />
+
     </div>
   );
 };
 
-export default Products;
+export default Cateogry;
