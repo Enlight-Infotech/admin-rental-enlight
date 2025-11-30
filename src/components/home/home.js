@@ -29,7 +29,7 @@ export default function Home() {
             >
                 <Tab label="Cateogry" />
                 <Tab label="Products" />
-                <Button sx={{ml: 'auto', mr: 2}} onClick={handleLogout} variant="outlined" color="secondary">Logout</Button>
+                <Button sx={{ml: 'auto'}} style={{marginRight: '10px'}} onClick={handleLogout} variant="outlined" color="secondary">Logout</Button>
             </Tabs>
             {/* Tab Panels */}
             {value === 0 && (
