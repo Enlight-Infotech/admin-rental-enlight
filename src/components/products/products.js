@@ -47,7 +47,7 @@ const [selectedRows, setSelectedRows] = useState([]);
   }
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div style={{ p: 2, padding: "10px" }}>
       <div style={{ textAlign: 'right', marginBottom: '5px' }}>
         <Button sx={{marginRight: '10px'}} onClick={deleteProduct} variant="contained" color="error" {...(productLoading && { loading: true })}>Delete</Button>
         <Button onClick={toggleDialog} variant="outlined" color="secondary" {...(productLoading && { loading: true })}>Add Product</Button>

@@ -46,7 +46,7 @@ const Cateogry = () => {
   }
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div style={{ p: 2, padding: "10px" }}>
       <div style={{ textAlign: 'right', marginBottom: '5px' }}>
         <Button sx={{marginRight: '10px'}} onClick={deleteCategory} variant="contained" color="error" {...(categoryLoading && { loading: true })}>Delete</Button>
         <Button onClick={toggleDialog} variant="outlined" color="secondary" {...(categoryLoading && { loading: true })}>Add Category</Button>

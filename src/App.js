@@ -3,15 +3,35 @@ import { Routes, Route } from 'react-router-dom';
 import Cateogry from './components/categories';
 import Products from './components/products/products';
 import Home from './components/home/home';
+import { Box } from '@mui/material';
+import Login from './components/login/login';
+import ProtectedRoute from './components/protected';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/categories" element={<Cateogry />} />
-      <Route path="/products" element={<Products />} />
+    <div style={{overflowX: 'clip'}}>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
 
-    </Routes>
+        } />
+        <Route path="/categories" element={
+          <ProtectedRoute>
+            <Cateogry />
+          </ProtectedRoute>
+
+        } />
+        <Route path="/products" element={
+          <ProtectedRoute>
+            <Products />
+          </ProtectedRoute>
+
+        } />
+      </Routes>
+    </div>
   );
 }
 
