@@ -67,65 +67,67 @@ export default function Login() {
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#f5f5f5",
-      }}
-    >
-      <Paper
-        elevation={4}
-        sx={{ padding: 4, width: 400, borderRadius: 3, textAlign: "center" }}
+    <div style={{marginTop: '20px'}}>
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#f5f5f5",
+        }}
       >
-        {/* Logo */}
-        <img src="/en-logo.webp" alt="logo" style={{ height: 70 }} />
+        <Paper
+          elevation={4}
+          sx={{ padding: 4, width: 400, borderRadius: 3, textAlign: "center" }}
+        >
+          {/* Logo */}
+          <img src="/en-logo.webp" alt="logo" style={{ height: 70 }} />
 
-        <Typography variant="h5" sx={{ mt: 2, fontWeight: "bold" }}>
-          Admin Login
-        </Typography>
-
-        {/* API Error */}
-        {apiError && (
-          <Typography color="error" sx={{ mt: 1, mb: 1 }}>
-            {apiError}
+          <Typography variant="h5" sx={{ mt: 2, fontWeight: "bold" }}>
+            Admin Login
           </Typography>
-        )}
 
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            sx={{ mt: 2 }}
-            error={!!errors.email}
-            helperText={errors.email}
-          />
+          {/* API Error */}
+          {apiError && (
+            <Typography color="error" sx={{ mt: 1, mb: 1 }}>
+              {apiError}
+            </Typography>
+          )}
 
-          <TextField
-            fullWidth
-            type="password"
-            label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{ mt: 2 }}
-            error={!!errors.password}
-            helperText={errors.password}
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            fullWidth
-            sx={{ mt: 3, padding: "10px", fontSize: "16px" }}
-          >
-            Login
-          </Button>
-        </form>
-      </Paper>
-    </Box>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{ mt: 2 }}
+              error={!!errors.email}
+              helperText={errors.email}
+            />
+
+            <TextField
+              fullWidth
+              type="password"
+              label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{ mt: 2 }}
+              error={!!errors.password}
+              helperText={errors.password}
+            />
+            <Button
+              variant="contained"
+              type="submit"
+              fullWidth
+              sx={{ mt: 3, padding: "10px", fontSize: "16px" }}
+            >
+              Login
+            </Button>
+          </form>
+        </Paper>
+      </Box>
+    </div>
   );
 }
