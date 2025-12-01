@@ -113,16 +113,41 @@ export default function Register() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            sx={{ mt: 2 }}
-            error={!!errors.name}
-            helperText={errors.name}
-          />
 
+          {/* FULL NAME + ROLE (same row on desktop) */}
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",     // mobile stacked
+                md: "1fr 1fr", // desktop row
+              },
+              gap: 2,
+              mt: 2,
+            }}
+          >
+            <TextField
+              label="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              error={!!errors.name}
+              helperText={errors.name}
+            />
+
+            <TextField
+              select
+              label="Select Role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              error={!!errors.role}
+              helperText={errors.role}
+            >
+              <MenuItem value={"1"}>Super Admin</MenuItem>
+              <MenuItem value={"2"}>Admin</MenuItem>
+            </TextField>
+          </Box>
+
+          {/* EMAIL */}
           <TextField
             fullWidth
             label="Email"
@@ -133,42 +158,36 @@ export default function Register() {
             helperText={errors.email}
           />
 
-          <TextField
-            fullWidth
-            type="password"
-            label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{ mt: 2 }}
-            error={!!errors.password}
-            helperText={errors.password}
-          />
-
-          <TextField
-            fullWidth
-            type="password"
-            label="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            sx={{ mt: 2 }}
-            error={!!errors.confirmPassword}
-            helperText={errors.confirmPassword}
-          />
-
-          {/* ROLE DROPDOWN */}
-          <TextField
-            select
-            fullWidth
-            label="Select Role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            sx={{ mt: 2 }}
-            error={!!errors.role}
-            helperText={errors.role}
+          {/* PASSWORD + CONFIRM PASSWORD (same row desktop) */}
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: "1fr 1fr",
+              },
+              gap: 2,
+              mt: 2,
+            }}
           >
-            <MenuItem value={'1'}>Super Admin</MenuItem>
-            <MenuItem value={'2'}>Admin</MenuItem>
-          </TextField>
+            <TextField
+              type="password"
+              label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={!!errors.password}
+              helperText={errors.password}
+            />
+
+            <TextField
+              type="password"
+              label="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword}
+            />
+          </Box>
 
           <Button
             variant="contained"
@@ -179,6 +198,8 @@ export default function Register() {
             Register
           </Button>
         </form>
+
+
       </Paper>
     </Box>
   );
