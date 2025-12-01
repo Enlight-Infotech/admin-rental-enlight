@@ -6,6 +6,7 @@ import Cateogry from '../categories';
 import Products from '../products/products';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Users from '../users/user';
 
 export default function Home() {
     const [value, setValue] = React.useState(0);
@@ -29,6 +30,8 @@ export default function Home() {
             >
                 <Tab label="Cateogry" />
                 <Tab label="Products" />
+                <Tab label="Users" />
+
                 <Button sx={{ml: 'auto'}} style={{marginRight: '10px'}} onClick={handleLogout} variant="outlined" color="secondary">Logout</Button>
             </Tabs>
             {/* Tab Panels */}
@@ -41,6 +44,12 @@ export default function Home() {
             {value === 1 && (
                 <Box sx={{ p: 0 }}>
                     <Products />
+                </Box>
+            )}
+
+            {value === 2 && (
+                <Box sx={{ p: 0 }}>
+                    <Users />
                 </Box>
             )}
         </Box>

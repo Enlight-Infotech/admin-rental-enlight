@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   TextField,
   Button,
   Typography,
   Paper,
+  MenuItem,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ROLES from '../enums/roles'
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState(1);
 
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
@@ -23,6 +28,8 @@ export default function Login() {
   // -------------------------
   const validate = () => {
     const newErrors = {};
+
+    if (!name.trim()) newErrors.name = "Name is required";
 
     if (!email.trim()) {
       newErrors.email = "Email is required";
@@ -36,13 +43,22 @@ export default function Login() {
       newErrors.password = "Password must be at least 6 characters";
     }
 
-    setErrors(newErrors);
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = "Confirm Password is required";
+    } else if (confirmPassword !== password) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
 
+    if (!role.trim()) {
+      newErrors.role = "Role is required";
+    }
+
+    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   // -------------------------
-  // HANDLE LOGIN
+  // HANDLE REGISTER
   // -------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,18 +67,20 @@ export default function Login() {
     if (!validate()) return;
 
     try {
-      const res = await axios.post("http://localhost:5500/api/auth/login", {
+      const res = await axios.post("http://localhost:5500/api/auth/register", {
+        name,
         email,
         password,
+        role,
       });
 
-      if (res.data?.token) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userData", JSON.stringify(res.data.user));
-        navigate("/dashboard");
+      if (res.data?.message === "User registered successfully") {
+        navigate("/");
       }
     } catch (error) {
-      setApiError("Invalid email or password");
+      setApiError(
+        error.response?.data?.message || "Registration failed. Try again."
+      );
     }
   };
 
@@ -81,11 +99,10 @@ export default function Login() {
         elevation={4}
         sx={{ padding: 4, width: 400, borderRadius: 3, textAlign: "center" }}
       >
-        {/* Logo */}
         <img src="/en-logo.webp" alt="logo" style={{ height: 70 }} />
 
         <Typography variant="h5" sx={{ mt: 2, fontWeight: "bold" }}>
-          Admin Login
+          Register New Admin
         </Typography>
 
         {/* API Error */}
@@ -96,6 +113,16 @@ export default function Login() {
         )}
 
         <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            sx={{ mt: 2 }}
+            error={!!errors.name}
+            helperText={errors.name}
+          />
+
           <TextField
             fullWidth
             label="Email"
@@ -116,13 +143,40 @@ export default function Login() {
             error={!!errors.password}
             helperText={errors.password}
           />
+
+          <TextField
+            fullWidth
+            type="password"
+            label="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            sx={{ mt: 2 }}
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword}
+          />
+
+          {/* ROLE DROPDOWN */}
+          <TextField
+            select
+            fullWidth
+            label="Select Role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            sx={{ mt: 2 }}
+            error={!!errors.role}
+            helperText={errors.role}
+          >
+            <MenuItem value={'1'}>Super Admin</MenuItem>
+            <MenuItem value={'2'}>Admin</MenuItem>
+          </TextField>
+
           <Button
             variant="contained"
             type="submit"
             fullWidth
             sx={{ mt: 3, padding: "10px", fontSize: "16px" }}
           >
-            Login
+            Register
           </Button>
         </form>
       </Paper>
